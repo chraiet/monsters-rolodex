@@ -10,7 +10,7 @@ const App: React.FC = () => {
 
     //  On component mount.
     useEffect(() => {
-        fetch('http://jsonplaceholder.typicode.com/users')
+        fetch('https://jsonplaceholder.typicode.com/users')
             .then(resonse => resonse.json())
             .then(users => setMonsters(users))
     }, [])
