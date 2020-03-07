@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import './App.css';
+import Monster from './types/Monster'
+import CardList from './components/card-list/card-list.component'
+import SearchBox from './components/search-box/search-box.component'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+    const [monsters, setMonsters] = useState<Monster[]>([])
+    const [searchField, setSearchField] = useState('')
+
+    //  On component mount.
+    useEffect(() => {
+        fetch('http://jsonplaceholder.typicode.com/users')
+            .then(resonse => resonse.json())
+            .then(users => setMonsters(users))
+    }, [])
+
+    const filteredMonsters = monsters.filter(monster => (
+        monster.name.toLowerCase().includes(searchField.toLocaleLowerCase())
+    ))
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchField(e.target.value)
+    }
+
+    return (
+        <div className="App">
+            <SearchBox placeholder="search monsters" handleChange={handleChange}/>
+            <CardList monsters={filteredMonsters}/>
+        </div>
+    );
 }
 
 export default App;
