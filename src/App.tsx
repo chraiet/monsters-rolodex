@@ -25,6 +25,7 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
+            <h1>Monsters Rolodex</h1>
             <SearchBox placeholder="search monsters" handleChange={handleChange}/>
             <CardList monsters={filteredMonsters}/>
         </div>
